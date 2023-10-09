@@ -1,0 +1,21 @@
+{
+  "devDependencies": {
+    "@types/lodash": "^4.14.199",
+    "turbo": "^1.10.14",
+    "vite": "^4.4.9"
+  },
+  "workspaces": [
+    "apps/*"
+  ],
+  "scripts": {
+    "dev": "turbo run dev",
+    "build": "turbo run build",
+    "format": "prettier --write \"apps/server/src/**/*.ts\" \"apps/server/test/**/*.ts\" \"apps/client/src/**/*.ts\"",
+    "lint": "eslint \"{src,apps,libs,test}/**/*.ts\" --fix"
+  },
+  "dependencies": {
+    "bootstrap": "^5.3.2",
+    "lodash": "^4.17.21",
+    "uuid": "^9.0.1"
+  }
+}

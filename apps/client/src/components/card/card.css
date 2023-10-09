@@ -1,0 +1,77 @@
+.card {
+    position: relative;
+
+    border-radius: 7px;
+    border: 1px solid black;
+
+    display: grid;
+    grid-template-columns: 25% 50% 25%;
+    grid-template-rows: 25% 50% 25%;
+
+    font-size: 15px;
+    width: 120px;
+    min-width: 120px;
+    height: 200px;
+    min-height: 200px;
+
+    background-color: white;
+
+    user-select: none;
+}
+
+.card-color-red {
+    color: red;
+}
+
+.card-color-black {
+    color: black;
+}
+
+.card>div:nth-child(1) {
+    grid-column: 1;
+    grid-row: 1;
+}
+
+.card>div:nth-child(2) {
+    grid-column: 2;
+    grid-row: 2;
+    font-size: 5em;
+}
+
+.card>div:nth-child(3) {
+    grid-column: 3;
+    grid-row: 3;
+}
+
+.card>div>span {
+    display: block;
+}
+
+.card>div {
+    place-self: center;
+}
+
+.card>div:nth-child(3)>span {
+    -moz-transform: scale(-1, -1);
+    -webkit-transform: scale(-1, -1);
+    -o-transform: scale(-1, -1);
+    -ms-transform: scale(-1, -1);
+    transform: scale(-1, -1);
+}
+
+.highlighted::before {
+    content: "";
+
+    left: -5px;
+    top: -5px;
+
+    width: calc(100% + 10px);
+    height: calc(100% + 10px);
+    background: repeating-linear-gradient(-45deg, green, lightgreen);
+
+    position: absolute;
+
+    z-index: -1;
+
+    border-radius: 7px;
+}
