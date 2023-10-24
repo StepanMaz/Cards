@@ -10,6 +10,9 @@ import { app_config } from "./typeorm.config";
 import { ServicesModule } from "./services/services.module";
 import { TokenModule } from "./services/token/token.module";
 import { JwtModule } from "@nestjs/jwt";
+import { REDIS_CONNECTION } from "./types&constants/constants";
+import { createClient } from "redis";
+import { RedisModule } from "./services/redis.module";
 
 @Module({
     imports: [
@@ -30,6 +33,15 @@ import { JwtModule } from "@nestjs/jwt";
             refresh_token_expiration_time: "1m",
         }),
         ServicesModule,
+        RedisModule.registerAsync({
+            global: true,
+            useFactory(config: ConfigService) {
+                return {
+                    password: config.getOrThrow("REDIS_PASSWORD"),
+                };
+            },
+            inject: [ConfigService],
+        }),
     ],
     controllers: [AppController],
 })
