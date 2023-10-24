@@ -1,23 +1,23 @@
 import { LobbyRepository } from "../repositories/lobby.repository";
 import { Injectable } from "@nestjs/common";
 import { v4 as uuid } from "uuid";
-import { InMemoryLobby } from "./lobby";
+import { LobbyMember } from "../types&constants/lobby/lobbyMember";
 
 @Injectable()
-export class LobbyService<TLobbyMember> {
-    constructor(private readonly lobby_repo: LobbyRepository<TLobbyMember>) {}
+export class LobbyService {
+    constructor(private readonly lobby_repo: LobbyRepository) {}
 
-    public create(member: TLobbyMember) {
+    public create(member: LobbyMember) {
         const id = uuid() as string;
-        const lobby = new InMemoryLobby(member);
-        this.lobby_repo.set(id, lobby);
+        this.lobby_repo.create(id, { owner: member });
+        return id;
     }
 
     public getAll() {
-        return this.lobby_repo.all();
+        // return this.lobby_repo.all();
     }
 
     public get(id: string) {
-        return this.lobby_repo.get(id);
+        // return this.lobby_repo.get(id);
     }
 }

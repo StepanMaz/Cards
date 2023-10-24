@@ -5,11 +5,8 @@ import {
     Module,
     ValueProvider,
 } from "@nestjs/common";
-import { JwtModule } from "@nestjs/jwt";
-import { ConfigModule, ConfigService } from "@nestjs/config";
 import { TokenService, type TokenServiceConfig } from "./token.service";
-
-export const TOKEN_SERVICE_CONFIG = "TOKEN_SERVICE_CONFIG";
+import { TOKEN_SERVICE_CONFIG } from "../../types&constants/constants";
 
 @Module({})
 export class TokenModule {
@@ -50,7 +47,7 @@ export class TokenModule {
     }
 }
 
-export type TokenModuleAsyncOptions =
+type TokenModuleAsyncOptions =
     | Omit<ValueProvider<TokenModuleOptions>, "provide">
     | Omit<FactoryProvider<TokenModuleOptions>, "provide">
     | Omit<ExistingProvider<TokenModuleOptions>, "provide">;
