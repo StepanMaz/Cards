@@ -20,7 +20,10 @@ export class BaseHttpApi implements HTTPApi {
         this.http = http;
     }
 
-    async load(path: string, options: HTTPApiOptions): Promise<HTTPApiResponse> {
+    async load(
+        path: string,
+        options: HTTPApiOptions,
+    ): Promise<HTTPApiResponse> {
         const { method, contentType, payload = null } = options;
 
         const headers = await this.getHeaders(contentType);
@@ -50,7 +53,7 @@ export class BaseHttpApi implements HTTPApi {
     }
 
     private async getHeaders(
-        contentType: ValuesOf<typeof ContentType> | undefined
+        contentType: ValuesOf<typeof ContentType> | undefined,
     ): Promise<Headers> {
         const headers = new Headers();
 
@@ -69,14 +72,14 @@ function configureString<T extends Record<string, string>>(
 
     const options = copiedArguments.pop() as T;
 
-    let result = copiedArguments.join('');
+    let result = copiedArguments.join("");
 
     for (const [key, value] of Object.entries(options)) {
         result = result.replace(`:${key}`, value);
     }
 
     return result;
-};
+}
 
 type HTTP = {
     load(path: string, options: HTTPOptions): Promise<Response>;
@@ -90,9 +93,9 @@ type HTTPApiResponse = Response & {
     json<T = unknown>(): Promise<T> | never;
 };
 
-type HTTPApiOptions = Omit<HTTPOptions, 'headers' | 'payload'> & {
+type HTTPApiOptions = Omit<HTTPOptions, "headers" | "payload"> & {
     contentType?: ValuesOf<typeof ContentType>;
-    payload?: HTTPOptions['payload'];
+    payload?: HTTPOptions["payload"];
 };
 
 type HTTPOptions = {
@@ -101,4 +104,4 @@ type HTTPOptions = {
     headers: Headers;
 };
 
-type HTTPMethod = 'GET' | 'POST' | 'PUT' | 'DELETE';
+type HTTPMethod = "GET" | "POST" | "PUT" | "DELETE";

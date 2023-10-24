@@ -1,14 +1,5 @@
 {
-  "extends": "../../tsconfig.json",
   "compilerOptions": {
-    "paths": {
-      "#/*": [
-        "./src/*"
-      ],
-      "@shared/*": [
-        "../shared/src/*"
-      ]
-    },
     "module": "commonjs",
     "declaration": true,
     "removeComments": true,
@@ -26,5 +17,10 @@
     "strictBindCallApply": false,
     "forceConsistentCasingInFileNames": false,
     "noFallthroughCasesInSwitch": false
-  }
+  },
+  "references": [
+    {
+      "path": "../shared"
+    }
+  ]
 }

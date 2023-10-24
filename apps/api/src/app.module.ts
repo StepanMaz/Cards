@@ -1,20 +1,36 @@
-import { Module } from '@nestjs/common';
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
-import { GameGatewayModule } from '#/gateway/gameGateway.module';
-import { ServeStaticModule } from '@nestjs/serve-static';
-import { join } from 'path';
-import { AuthModule } from './controllers/auth/auth.module';
+import { Module } from "@nestjs/common";
+import { AppController } from "./app.controller";
+import { GameGatewayModule } from "./gateway/gateway.module";
+import { ServeStaticModule } from "@nestjs/serve-static";
+import { join } from "path";
+import { ControllersModule } from "./controllers/controllers.module";
+import { ConfigModule, ConfigService } from "@nestjs/config";
+import { TypeOrmModule } from "@nestjs/typeorm";
+import { app_config } from "./typeorm.config";
+import { ServicesModule } from "./services/services.module";
+import { TokenModule } from "./services/token/token.module";
+import { JwtModule } from "@nestjs/jwt";
 
 @Module({
-  imports: [
-    GameGatewayModule,
-    ServeStaticModule.forRoot({
-      rootPath: join(__dirname, '../../..', 'client', 'dist')
-    }),
-    AuthModule
-  ],
-  controllers: [AppController],
-  providers: [AppService],
+    imports: [
+        GameGatewayModule,
+        ConfigModule.forRoot({ isGlobal: true }),
+        TypeOrmModule.forRoot(app_config),
+        ControllersModule,
+        JwtModule.registerAsync({
+            global: true,
+            useFactory: (config: ConfigService) => ({
+                secret: config.getOrThrow("JWT_SECRET"),
+            }),
+            inject: [ConfigService],
+            imports: [ConfigModule],
+        }),
+        TokenModule.register({
+            access_token_expiration_time: "1h",
+            refresh_token_expiration_time: "1m",
+        }),
+        ServicesModule,
+    ],
+    controllers: [AppController],
 })
-export class AppModule { }
+export class AppModule {}

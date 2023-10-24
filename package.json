@@ -1,21 +1,22 @@
 {
-  "devDependencies": {
-    "@types/lodash": "^4.14.199",
-    "turbo": "^1.10.14",
-    "vite": "^4.4.9"
-  },
-  "workspaces": [
-    "apps/*"
-  ],
-  "scripts": {
-    "dev": "turbo run dev",
-    "build": "turbo run build",
-    "format": "prettier --write \"apps/server/src/**/*.ts\" \"apps/server/test/**/*.ts\" \"apps/client/src/**/*.ts\"",
-    "lint": "eslint \"{src,apps,libs,test}/**/*.ts\" --fix"
-  },
-  "dependencies": {
-    "bootstrap": "^5.3.2",
-    "lodash": "^4.17.21",
-    "uuid": "^9.0.1"
-  }
+    "devDependencies": {
+        "ts-node": "^10.9.1",
+        "turbo": "^1.10.14",
+        "vite": "^4.4.9"
+    },
+    "workspaces": [
+        "apps/*"
+    ],
+    "scripts": {
+        "dev": "turbo run dev",
+        "build": "turbo run build",
+        "format": "prettier --write \"apps/api/src/**/*.ts\" \"apps/api/test/**/*.ts\" \"apps/client/src/**/*.ts\"",
+        "lint": "eslint \"{src,apps,libs,test}/**/*.ts\" --fix",
+        "services": "npm --prefix apps/api run services",
+        "services:up": "npm --prefix apps/api run services:up",
+        "services:down": "npm --prefix apps/api run services:down",
+        "services:restart": "npm --prefix apps/api run services:restart",
+        "migration:generate": "npm --prefix apps/api run migration:generate",
+        "migration:run": "npm --prefix apps/api run migration:run"
+    }
 }
