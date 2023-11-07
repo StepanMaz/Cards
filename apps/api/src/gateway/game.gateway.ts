@@ -9,15 +9,15 @@ import {
 import { Server, Socket } from "socket.io";
 import { Logger } from "@nestjs/common";
 import type {
-    ServerEvents,
-    ClientEvents,
+    GameServerEvents,
+    GameClientEvents,
     ToSocketIOEvents,
-} from "shared/src/types/game/events";
+} from "shared/src/types/sockets";
 import { GameService } from "../services/game.service";
 import type { Game } from "../game";
 
-type OnEvents = ToSocketIOEvents<ClientEvents>;
-type EmitEvents = ToSocketIOEvents<ServerEvents>;
+type OnEvents = ToSocketIOEvents<GameClientEvents>;
+type EmitEvents = ToSocketIOEvents<GameServerEvents>;
 
 @WebSocketGateway({ namespace: "game" })
 export class GameGateway implements OnGatewayConnection, OnGatewayDisconnect {
@@ -51,11 +51,6 @@ export class GameGateway implements OnGatewayConnection, OnGatewayDisconnect {
 
     handleDisconnect(client: Socket<OnEvents, EmitEvents>) {
         client.to(client.data.game_id).emit("remove_player", { id: client.id });
-    }
-
-    @SubscribeMessage("message")
-    handle(socket: Socket<OnEvents, EmitEvents>, data: any) {
-        console.log(socket.handshake.auth);
     }
 }
 

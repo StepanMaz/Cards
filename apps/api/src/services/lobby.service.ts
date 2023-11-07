@@ -9,7 +9,9 @@ export class LobbyService {
 
     public create(member: LobbyMember) {
         const id = uuid() as string;
-        this.lobby_repo.create(id, { owner: member });
+
+        this.lobby_repo.create(id, { owner: member, members: [], state: "1" });
+
         return id;
     }
 
@@ -18,6 +20,10 @@ export class LobbyService {
     }
 
     public get(id: string) {
-        // return this.lobby_repo.get(id);
+        return this.lobby_repo.get(id);
+    }
+
+    public exists(id: string) {
+        return this.lobby_repo.exists(id);
     }
 }

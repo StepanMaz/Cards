@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { Card, Suit } from "@shared/types/cards";
+import { Card, Suit } from "@shared/types/cards/index";
 
 export type GameState = {
     game_id?: string;
@@ -93,5 +93,5 @@ export const {
     swapHand,
     removePlayer,
 } = gameSlice.actions;
-export const actions = gameSlice.actions;
+export type actions = typeof gameSlice.actions;
 export const reducer = gameSlice.reducer;

@@ -24,7 +24,7 @@ export default class AuthController {
         return this.auth_service.singUp(data);
     }
 
-    @Post("refresh")
+    @Post("/refresh")
     public async refresh(@Body() data: RefreshDTO) {
         return this.auth_service.refreshAccessToken(data.token);
     }

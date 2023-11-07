@@ -1,32 +1,26 @@
 import { Link } from "react-router-dom";
-import "../signin.css";
+import "../index.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { useRef } from "react";
+import authService from "../../../services/authService";
+import { actions } from "../../../redux/slices/auth";
+import { useAppDispatch } from "../../../hooks/use-app-dispatch";
 
 export default function SignInPage() {
-    const usernameRef = useRef<HTMLInputElement>(null);
     const emailRef = useRef<HTMLInputElement>(null);
     const passwordRef = useRef<HTMLInputElement>(null);
+    const dispatch = useAppDispatch();
 
     const handlesubmit: React.FormEventHandler<HTMLFormElement> = async (e) => {
         e.preventDefault();
 
-        const responce = await fetch("/api/auth", {
-            method: 'PUT',
-            headers: {
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify({
-                username: usernameRef.current?.value,
-                email: emailRef.current?.value,
-                password: passwordRef.current?.value
-            })
-        });
-
-        if (!responce.ok) {
-            alert((await responce.json()).message[0])
-        }
-    }
+        dispatch(
+            actions.signIn({
+                password: passwordRef.current?.value ?? "",
+                identifier: emailRef.current?.value ?? "",
+            }),
+        );
+    };
 
     return (
         <div className="Auth-form-container">
@@ -34,16 +28,7 @@ export default function SignInPage() {
                 <div className="Auth-form-content">
                     <h3 className="Auth-form-title">Sign In</h3>
                     <div className="text-center">
-                        Already registered?{" "}
-                        <Link to={"/signup"}>Sign Up</Link>
-                    </div>
-                    <div className="form-group mt-3">
-                        <label>Username</label>
-                        <input
-                            ref={usernameRef}
-                            className="form-control mt-1"
-                            placeholder="e.g Jane Doe"
-                        />
+                        Not registered yet? <Link to="/signup">Sign Up</Link>
                     </div>
                     <div className="form-group mt-3">
                         <label>Email address</label>
@@ -51,7 +36,7 @@ export default function SignInPage() {
                             ref={emailRef}
                             type="email"
                             className="form-control mt-1"
-                            placeholder="Email Address"
+                            placeholder="Enter email"
                         />
                     </div>
                     <div className="form-group mt-3">
@@ -60,7 +45,7 @@ export default function SignInPage() {
                             ref={passwordRef}
                             type="password"
                             className="form-control mt-1"
-                            placeholder="Password"
+                            placeholder="Enter password"
                         />
                     </div>
                     <div className="d-grid gap-2 mt-3">
@@ -74,5 +59,5 @@ export default function SignInPage() {
                 </div>
             </form>
         </div>
-    )
+    );
 }
